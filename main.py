@@ -34,14 +34,14 @@ while True:
             quit()
             sys.exit()
 
-    
+    #nuvem andando
     window.fill((151, 209, 250))
     nuvem_x += velocidade
     if nuvem_x > 1280:
         nuvem_x = -200
     
 
-    #Desenhar aqui:
+    #desenhar aqui:
     draw.rect(window,(72, 157, 37),(0,580,1280,220))
     draw.rect(window,(100, 100, 100),(250, 330, 490,250))
     draw.rect(window,(140, 72, 4),(375, 200, 365,130))
@@ -49,15 +49,15 @@ while True:
     draw.circle(window, (0,0,0), (350, 485),8)
     draw.rect(window,(4, 191, 182),(500, 385, 200, 100))
 
-    #Desenhar qualquer poligono:
+    #desenhar qualquer poligono:
     draw.polygon(window,(140, 72, 4),((250,330),(375,200),(500,330)))
 
-    #Desenhar linhas:
+    #desenhar linhas:
     draw.line(window,(0, 0, 0),(250,330),(500,330),5)
     draw.line(window,(0, 0, 0),(375,200),(250,330),5)
     draw.line(window,(0, 0, 0),(375,200),(500,330),5)
     
-    #Sol
+    #sol
     draw.line(window,(255, 196, 0),(160,120),(250,200),8)
     draw.line(window,(255, 196, 0),(160,120),(100,230),8)
     draw.line(window,(255, 196, 0),(160,120),(180,230),8)
@@ -86,20 +86,20 @@ while True:
     draw.circle(window,(255, 255, 255), (nuvem_x + 130, 100), 50)
     draw.circle(window,(255, 255, 255), (nuvem_x + 195, 100), 50)
 
-    #Arvore
+    #arvore
     draw.rect(window,(99, 60, 15),(1000, 420, 50,160))
     draw.circle(window,(12, 107, 20),(1025,380), 100)
     
-    #Desenhar imagem:
+    #desenhar imagem:
     window.blit(newton_img,(740,400))
     window.blit(maca_img,(1010, 390))
     window.blit(maca_img,(950, 320))
     window.blit(maca_img,(1050, 310))
     
-    #Desenhar texto:
+    #desenhar texto:
     window.blit(newton_text,(750, 650))
 
-    #Colocar som:
+    #colocar som:
     music.play()
     
     display.update()
