@@ -5,6 +5,10 @@ init()
 newton_img = image.load("newton.png")
 newton_img = transform.scale(newton_img,(250,250))
 
+newton_font = font.SysFont("Arial", 30, True, False)
+
+newton_music.load("newton_music.mp3")
+mixer_music.play(-1)
 
 
 
@@ -39,7 +43,7 @@ while True:
     draw.line(window,(255, 196, 0),(160,120),(250,200),8)
     draw.line(window,(255, 196, 0),(160,120),(100,230),8)
     draw.line(window,(255, 196, 0),(160,120),(170,230),8)
-    
+    draw.line(window,(255, 196, 0),(160,120),(230,290),8)
     
     
     
@@ -48,11 +52,16 @@ while True:
     #Arvore
     draw.rect(window,(99, 60, 15),(1000, 420, 50,160))
     draw.circle(window,(12, 107, 20),(1025,380), 100)
+    
     #Desenhar imagem:
     window.blit(newton_img,(740,400))
+    
     #Desenhar texto:
-    newton_text = newton_font.render("I am Newton", True, (0,0,0))
+    # newton_text = newton_font.render("I am Newton", True, (0,0,0))
+    # window.blit(newton_text,(750, 650))
 
+    #Colocar som:
+    
 
     
     display.update()
