@@ -5,10 +5,10 @@ init()
 newton_img = image.load("newton.png")
 newton_img = transform.scale(newton_img,(250,250))
 
-newton_font = font.SysFont("Arial", 30, True, False)
+newton_font = font.Font("fonte_newton", 30, True, False)
 
-newton_music.load("newton_music.mp3")
-mixer_music.play(-1)
+# newton_music.load("newton_music.mp3")
+# mixer_music.play(-1)
 
 
 
@@ -57,8 +57,9 @@ while True:
     window.blit(newton_img,(740,400))
     
     #Desenhar texto:
-    # newton_text = newton_font.render("I am Newton", True, (0,0,0))
-    # window.blit(newton_text,(750, 650))
+    newton_text = newton_font.render("I am Newton", True, (0,0,0))
+    window.blit(newton_text,(750, 650))
+
 
     #Colocar som:
     
