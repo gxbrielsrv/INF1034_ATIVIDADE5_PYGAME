@@ -2,6 +2,7 @@ from pygame import *
 import sys 
 init()
 
+background_color = '#97d1fa'
 
 #imagens
 newton_img = image.load("newton.png")
@@ -34,7 +35,17 @@ clock = time.Clock()
 
 #nuvem andando
 nuvem_x = 800
-velocidade = 5
+sol_x = 160
+linha_1 = 250
+linha_2 = 100
+linha_3 = 180
+linha_4 = 230
+
+
+
+
+
+
 
 timer = 0
 
@@ -43,17 +54,41 @@ while running:
     for ev in event.get():
         if  ev.type == QUIT:
             running = False
+        if ev.type == KEYDOWN:
+            key_pressed = ev.key
+            if key_pressed == K_SPACE:
+                background_color = (243, 126, 48)
+                
+                
+    
+
+
+
+
+
+
     dt = clock.get_time()/1000
+    keys = key.get_pressed()
+
+
+    #se eu pressionar a tecla D, entao:
+    
+
     timer = timer + dt
-    print(dt)
+    if nuvem_x <= 1030:
+        nuvem_x = nuvem_x +100* dt
+    else:
+        nuvem_x = nuvem_x - 100* dt
+    
+    
 
 
 
-    #nuvem andando
-    window.fill((151, 209, 250))
-    nuvem_x += velocidade
-    if nuvem_x > 1280:
-        nuvem_x = 800
+
+    # #nuvem andando
+    window.fill(background_color)
+    # if nuvem_x > 1280:
+    #     nuvem_x = 800
     
 
     #desenhar aqui:
@@ -72,23 +107,24 @@ while running:
     draw.line(window,(0, 0, 0),(375,200),(250,330),5)
     draw.line(window,(0, 0, 0),(375,200),(500,330),5)
     
-    #sol
-    draw.line(window,(255, 196, 0),(160,120),(250,200),8)
-    draw.line(window,(255, 196, 0),(160,120),(100,230),8)
-    draw.line(window,(255, 196, 0),(160,120),(180,230),8)
-    draw.line(window,(255, 196, 0),(160,120),(230,260),8)
-    draw.line(window,(255, 196, 0),(160,120),(230,10),8)
-    draw.line(window,(255, 196, 0),(160,120),(250,50),8)
-    draw.line(window,(255, 196, 0),(160,120),(270,105),8)
-    draw.line(window,(255, 196, 0),(160,120),(290,145),8)
-    draw.line(window,(255, 196, 0),(160,120),(25,185),8)
-    draw.line(window,(255, 196, 0),(160,120),(33,120),8)
-    draw.line(window,(255, 196, 0),(160,120),(25,60),8)
-    draw.line(window,(255, 196, 0),(160,120),(45,10),8)
-    draw.line(window,(255, 196, 0),(160,120),(120,10),8)
-    draw.line(window,(255, 196, 0),(160,120),(180,10),8)
-    draw.circle(window,(255, 196, 0),(160,120),50)
 
+
+
+
+
+
+
+
+    if keys[K_d]:
+        sol_x = sol_x + 200 * dt
+    elif keys[K_a]:
+        sol_x = sol_x - 200* dt
+    #sol
+    draw.circle(window,(255, 196, 0),(sol_x,120),50)
+    draw.line(window,(255, 196, 0),(sol_x,120),(linha_1, 200),8)
+    draw.line(window,(255, 196, 0),(sol_x,120),(linha_2,230),8)
+    draw.line(window,(255, 196, 0),(sol_x,120),(linha_3 ,230),8)
+    draw.line(window,(255, 196, 0),(sol_x,120),(linha_4,260),8)
     #nuvem parada
     # draw.circle(window,(255, 255, 255,), (800, 100), 50)
     # draw.circle(window,(255, 255, 255,), (865, 100), 50)
