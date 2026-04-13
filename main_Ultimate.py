@@ -22,17 +22,32 @@ music.set_volume(0.1)
 
 window = display.set_mode((1280,720))
 window.fill((151, 209, 250))
+running = True
+clock = time.Clock()
+
+
+
+
+
+
+
 
 #nuvem andando
 nuvem_x = 800
-velocidade = 0.7
+velocidade = 5
 
+timer = 0
 
-while True:
+while running:
+    clock.tick(60)
     for ev in event.get():
         if  ev.type == QUIT:
-            quit()
-            sys.exit()
+            running = False
+    dt = clock.get_time()/1000
+    timer = timer + dt
+    print(dt)
+
+
 
     #nuvem andando
     window.fill((151, 209, 250))
