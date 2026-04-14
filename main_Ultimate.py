@@ -15,10 +15,20 @@ newton_font = font.Font("contrast.ttf", 30)
 newton_text = newton_font.render("I am Newton", True, (0,0,0))
 
 #musica
-mixer_music.load("newton_music.mp3")
-mixer_music.play(-1)
-music = mixer.Sound("newton_music.mp3")
-music.set_volume(0.1)
+# mixer_music.load("newton_music.mp3")
+# mixer_music.play(-1)
+# music = mixer.Sound("newton_music.mp3")
+# music.set_volume(0.1)
+
+# mixer_music.load("manha.mp3")
+# mixer_music.play(0)
+# manha = mixer.Sound("manha.mp3")
+# music.set_volume(0.1)
+
+# tarde = mixer.Sound("")
+
+
+# noite = mixer.Sound("")
 
 
 window = display.set_mode((1280,720))
@@ -30,24 +40,26 @@ clock = time.Clock()
 
 
 
+#margem da tela para nuvem
+margem_esquerda = 50
+largura = 1030
 
+#limite da tela para o sol
+largura = 1280
+altura =  720
+raio = 50
 
+#sol posicao
 
-#nuvem andando
-nuvem_x = 800
 sol_x = 160
-linha_1 = 250
-linha_2 = 100
-linha_3 = 180
-linha_4 = 230
-
-
-
-
-
+sol_y = 120
 
 
 timer = 0
+
+#nuvem posicao 
+nuvem_x = 800
+velocidade = 3
 
 while running:
     clock.tick(60)
@@ -56,42 +68,79 @@ while running:
             running = False
         if ev.type == KEYDOWN:
             key_pressed = ev.key
-            if key_pressed == K_SPACE:
-                background_color = (243, 126, 48)
-                
-                
-    
-
-
-
-
-
-
+            
     dt = clock.get_time()/1000
+    timer = timer + dt
     keys = key.get_pressed()
 
-
-    #se eu pressionar a tecla D, entao:
-    
-
-    timer = timer + dt
-    if nuvem_x <= 1030:
-        nuvem_x = nuvem_x +100* dt
+    #fundo:
+    if sol_x < 427:
+        background_color = '#97d1fa'
+        mixer_music.load("manha.mp3")
+        mixer_music.play(0)
+        manha = mixer.Sound("manha.mp3")
+        manha.set_volume(0.1)
+        manha.play()
+    elif sol_x > 427 and  sol_x < 854:
+        background_color = '#f37e30'
+        
     else:
-        nuvem_x = nuvem_x - 100* dt
-    
-    
+        background_color = '#070c52'
 
 
 
 
-    # #nuvem andando
-    window.fill(background_color)
-    # if nuvem_x > 1280:
-    #     nuvem_x = 800
-    
+
+
+
 
     #desenhar aqui:
+
+    #nuvem andando
+    if nuvem_x > largura:
+        velocidade = -3
+    elif nuvem_x < margem_esquerda: 
+        velocidade = 3
+    nuvem_x += velocidade            
+    window.fill(background_color)                
+    
+   
+    
+    #sol
+    if keys[K_d]:
+        sol_x += 200 * dt
+    if keys[K_a]:
+        sol_x -= 200 * dt
+    if keys[K_w]:
+        sol_y -= 200 * dt
+    if keys[K_s]:
+        sol_y += 200 * dt
+    draw.circle(window,(255,196,0),(sol_x,sol_y),50)
+    draw.line(window,(255,196,0),(sol_x,sol_y-50),(sol_x,sol_y-100),8)   
+    draw.line(window,(255,196,0),(sol_x,sol_y+50),(sol_x,sol_y+100),8)   
+    draw.line(window,(255,196,0),(sol_x-50,sol_y),(sol_x-100,sol_y),8)   
+    draw.line(window,(255,196,0),(sol_x+50,sol_y),(sol_x+100,sol_y),8)   
+    draw.line(window,(255,196,0),(sol_x-35,sol_y-35),(sol_x-70,sol_y-70),8)
+    draw.line(window,(255,196,0),(sol_x+35,sol_y-35),(sol_x+70,sol_y-70),8)
+    draw.line(window,(255,196,0),(sol_x-35,sol_y+35),(sol_x-70,sol_y+70),8)
+    draw.line(window,(255,196,0),(sol_x+35,sol_y+35),(sol_x+70,sol_y+70),8)
+
+    if sol_x < raio:
+        sol_x = raio
+    elif sol_x > largura - raio:
+        sol_x = largura - raio
+    elif sol_y < raio:
+        sol_y = raio
+    elif sol_y > altura - raio:
+        sol_y = altura - raio
+
+    #nuvem:
+    draw.circle(window,(255, 255, 255), (nuvem_x, 100), 50)
+    draw.circle(window,(255, 255, 255), (nuvem_x + 65, 100), 50)
+    draw.circle(window,(255, 255, 255), (nuvem_x + 130, 100), 50)
+    draw.circle(window,(255, 255, 255), (nuvem_x + 195, 100), 50)
+
+    #casa
     draw.rect(window,(72, 157, 37),(0,580,1280,220))
     draw.rect(window,(100, 100, 100),(250, 330, 490,250))
     draw.rect(window,(140, 72, 4),(375, 200, 365,130))
@@ -106,36 +155,6 @@ while running:
     draw.line(window,(0, 0, 0),(250,330),(500,330),5)
     draw.line(window,(0, 0, 0),(375,200),(250,330),5)
     draw.line(window,(0, 0, 0),(375,200),(500,330),5)
-    
-
-
-
-
-
-
-
-
-    if keys[K_d]:
-        sol_x = sol_x + 200 * dt
-    elif keys[K_a]:
-        sol_x = sol_x - 200* dt
-    #sol
-    draw.circle(window,(255, 196, 0),(sol_x,120),50)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_1, 200),8)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_2,230),8)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_3 ,230),8)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_4,260),8)
-    #nuvem parada
-    # draw.circle(window,(255, 255, 255,), (800, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (865, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (930, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (995, 100), 50)
-
-    #nuvem andando
-    draw.circle(window,(255, 255, 255), (nuvem_x, 100), 50)
-    draw.circle(window,(255, 255, 255), (nuvem_x + 65, 100), 50)
-    draw.circle(window,(255, 255, 255), (nuvem_x + 130, 100), 50)
-    draw.circle(window,(255, 255, 255), (nuvem_x + 195, 100), 50)
 
     #arvore
     draw.rect(window,(99, 60, 15),(1000, 420, 50,160))
@@ -151,6 +170,6 @@ while running:
     window.blit(newton_text,(750, 650))
 
     #colocar som:
-    music.play()
+    # manha.play()
     
     display.update()
