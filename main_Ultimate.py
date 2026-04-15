@@ -4,6 +4,30 @@ init()
 
 background_color = '#97d1fa'
 
+#sfx
+# manha_sfx = mixer.Sound('')
+# tarde_sfx = mixer.Sound('')
+# noite_sfx = mixer.Sound('')
+# manha_sfx.set_volume(0.5)
+# tarde_sfx.set_volume(0.5)
+# noite_sfx.set_volume(0.5)
+
+#margem da tela = 
+margem_left = 40
+margem_right = 1040 
+margem_top = 50
+margem_bottom = 670
+
+#sol variaveis
+sol_x = 200
+sol_y = 150
+
+
+
+
+
+
+
 #imagens
 newton_img = image.load("newton.png")
 newton_img = transform.scale(newton_img,(250,250))
@@ -28,18 +52,17 @@ clock = time.Clock()
 
 
 
-
+movimentosol = False
 
 
 
 
 #nuvem andando
 nuvem_x = 800
+velocidade = 4
 sol_x = 160
-linha_1 = 250
-linha_2 = 100
-linha_3 = 180
-linha_4 = 230
+sol_y = 50
+
 
 
 
@@ -54,42 +77,64 @@ while running:
     for ev in event.get():
         if  ev.type == QUIT:
             running = False
+
         if ev.type == KEYDOWN:
             key_pressed = ev.key
-            if key_pressed == K_SPACE:
-                background_color = (243, 126, 48)
-                
-                
-    
-
-
-
-
-
+            if key_pressed == K_m:
+                movimentosol = not movimentosol
 
     dt = clock.get_time()/1000
     keys = key.get_pressed()
-
-
-    #se eu pressionar a tecla D, entao:
-    
-
-    timer = timer + dt
-    if nuvem_x <= 1030:
-        nuvem_x = nuvem_x +100* dt
+#mov sol:
+    if not movimentosol:
+        if keys[K_d]:
+            sol_x += 200 * dt
+        if keys[K_a]:
+            sol_x -= 200 * dt
+        if keys[K_w]:
+            sol_y -= 200 * dt
+        if keys[K_s]:
+            sol_y += 200 * dt
     else:
-        nuvem_x = nuvem_x - 100* dt
+        if ev.type == MOUSEMOTION:
+            sol_x, sol_y = ev.pos
+
     
-    
+
+    #tempo de acordo com sol_x:
+
+    if sol_x < 427:
+        background_color = '#97d1fa'
+    elif sol_x > 854:
+        background_color = '#011140'
+    else:
+        background_color = '#cf7200'
 
 
-
-
-    # #nuvem andando
+    # limpar resto nuvem andando
     window.fill(background_color)
-    # if nuvem_x > 1280:
-    #     nuvem_x = 800
     
+    # sol
+    draw.circle(window,(255,196,0),(sol_x,sol_y),50)
+    draw.line(window,(255,196,0),(sol_x,sol_y-50),(sol_x,sol_y-100),8) 
+    draw.line(window,(255,196,0),(sol_x,sol_y+50),(sol_x,sol_y+100),8) 
+    draw.line(window,(255,196,0),(sol_x-50,sol_y),(sol_x-100,sol_y),8) 
+    draw.line(window,(255,196,0),(sol_x+50,sol_y),(sol_x+100,sol_y),8) 
+    draw.line(window,(255,196,0),(sol_x-35,sol_y-35),(sol_x-70,sol_y-70),8)
+    draw.line(window,(255,196,0),(sol_x+35,sol_y-35),(sol_x+70,sol_y-70),8)
+    draw.line(window,(255,196,0),(sol_x-35,sol_y+35),(sol_x-70,sol_y+70),8)
+    draw.line(window,(255,196,0),(sol_x+35,sol_y+35),(sol_x+70,sol_y+70),8)
+
+    #limite sol:
+    sol_x = max(30, min(1230, sol_x))
+    sol_y = max(70, min(630, sol_y))
+
+    #nuvem rebater: 
+    if nuvem_x > margem_right:
+        velocidade = -4
+    if nuvem_x < margem_left: 
+        velocidade = 4
+    nuvem_x += velocidade
 
     #desenhar aqui:
     draw.rect(window,(72, 157, 37),(0,580,1280,220))
@@ -107,30 +152,6 @@ while running:
     draw.line(window,(0, 0, 0),(375,200),(250,330),5)
     draw.line(window,(0, 0, 0),(375,200),(500,330),5)
     
-
-
-
-
-
-
-
-
-    if keys[K_d]:
-        sol_x = sol_x + 200 * dt
-    elif keys[K_a]:
-        sol_x = sol_x - 200* dt
-    #sol
-    draw.circle(window,(255, 196, 0),(sol_x,120),50)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_1, 200),8)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_2,230),8)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_3 ,230),8)
-    draw.line(window,(255, 196, 0),(sol_x,120),(linha_4,260),8)
-    #nuvem parada
-    # draw.circle(window,(255, 255, 255,), (800, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (865, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (930, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (995, 100), 50)
-
     #nuvem andando
     draw.circle(window,(255, 255, 255), (nuvem_x, 100), 50)
     draw.circle(window,(255, 255, 255), (nuvem_x + 65, 100), 50)
