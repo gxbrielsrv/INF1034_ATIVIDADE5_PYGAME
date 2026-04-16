@@ -83,7 +83,6 @@ while running:
         manha.play()
     elif sol_x > 427 and  sol_x < 854:
         background_color = '#f37e30'
-        
     else:
         background_color = '#070c52'
 
