@@ -28,11 +28,11 @@ cor_noite = (1, 17, 64)
 
 #funcao ceu:
 def corCeu(cor1, cor2, tempo):
-    return (
-        (cor1[0] + (cor2[0] - cor1[0]) * tempo),
-        (cor1[1] + (cor2[1] - cor1[1]) * tempo),
-        (cor1[2] + (cor2[2] - cor1[2]) * tempo)
-    )
+    r = (cor1[0] + (cor2[0] - cor1[0]) * tempo)
+    g = (cor1[1] + (cor2[1] - cor1[1]) * tempo)
+    b = (cor1[2] + (cor2[2] - cor1[2]) * tempo)
+
+    return (r, g, b)
 background_color = cor_manha
 
 
