@@ -75,13 +75,30 @@ timer = 0
 while running:
     clock.tick(60)
     for ev in event.get():
-        if  ev.type == QUIT:
+        if ev.type == QUIT:
             running = False
 
         if ev.type == KEYDOWN:
-            key_pressed = ev.key
-            if key_pressed == K_m:
+            if ev.key == K_m:
                 movimentosol = not movimentosol
+
+        if movimentosol:
+            if ev.type == MOUSEMOTION:
+                sol_x, sol_y = ev.pos
+
+            if ev.type == MOUSEBUTTONUP:
+                if ev.button == 1:
+                    
+                    manha_sfx.stop()
+                    tarde_sfx.stop()
+                    noite_sfx.stop()
+
+                if sol_x < 400:
+                    manha_sfx.play()
+                elif sol_x > 800:
+                    noite_sfx.play()
+                else:
+                    tarde_sfx.play()
 
     dt = clock.get_time()/1000
     keys = key.get_pressed()
@@ -96,18 +113,7 @@ while running:
             sol_y -= 200 * dt
         if keys[K_s]:
             sol_y += 200 * dt
-    else:
-        if ev.type == MOUSEMOTION:
-            sol_x, sol_y = ev.pos
-
-        if ev.type == MOUSEBUTTONUP:
-            if ev.button == 1:
-                if sol_x < 400 :
-                    manha_sfx.play()
-                elif sol_x > 800:
-                    noite_sfx.play()
-                else:
-                    tarde_sfx.play()
+    
                 
     
 
