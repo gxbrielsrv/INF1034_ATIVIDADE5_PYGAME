@@ -1,8 +1,9 @@
 from pygame import *
 import sys 
+import random
 init()
 
-background_color = '#97d1fa'
+#background_color = '#97d1fa'
 
 #sfx
 manha_sfx = mixer.Sound('manha.wav')
@@ -21,11 +22,18 @@ margem_bottom = 670
 #sol variaveis
 sol_x = 200
 sol_y = 150
+cor_manha = (151, 209, 250)
+cor_tarde = (207, 114, 0)
+cor_noite = (1, 17, 64)
 
-
-
-
-
+#funcao ceu:
+def corCeu(cor1, cor2, tempo):
+    return (
+        (cor1[0] + (cor2[0] - cor1[0]) * tempo),
+        (cor1[1] + (cor2[1] - cor1[1]) * tempo),
+        (cor1[2] + (cor2[2] - cor1[2]) * tempo)
+    )
+background_color = cor_manha
 
 
 #imagens
@@ -117,13 +125,23 @@ while running:
                 
     
 
-    #tempo de acordo com sol_x:
-    if sol_x < 427:
-        background_color = '#97d1fa'
-    elif sol_x > 854:
-        background_color = '#011140'
+    #tempo de acordo com sol_x seco:
+    # if sol_x < 427:
+    #     background_color = '#97d1fa'
+    # elif sol_x > 854:
+    #     background_color = '#011140'
+    # else:
+    #     background_color = '#cf7200'
+
+    #tempo de acordo com o sol_x continuo:
+    tempo = (sol_x - 30) / (1230 - 30)
+    tempo = max(0, min(1, tempo))
+    if tempo < 0.5:
+        tempo2 = tempo* 2
+        background_color = corCeu(cor_manha, cor_tarde, tempo2)
     else:
-        background_color = '#cf7200'
+        tempo2 = (tempo - 0.5) * 2
+        background_color = corCeu(cor_tarde, cor_noite, tempo2)
 
         
 
@@ -132,6 +150,33 @@ while running:
     # limpar resto nuvem andando
     window.fill(background_color)
     
+    if sol_x > 1070:
+        draw.circle(window, (255,255,255), (100,100), 3)
+        draw.circle(window, (255,255,255), (200,80), 3)
+        draw.circle(window, (255,255,255), (350,120), 3)
+        draw.circle(window, (255,255,255), (500,60), 3)
+        draw.circle(window, (255,255,255), (700,90), 3)
+        draw.circle(window, (255,255,255), (900,70), 3)
+
+        draw.circle(window, (255,255,255), (150,50), 3)
+        draw.circle(window, (255,255,255), (250,140), 3)
+        draw.circle(window, (255,255,255), (400,30), 3)
+        draw.circle(window, (255,255,255), (600,150), 3)
+        draw.circle(window, (255,255,255), (750,40), 3)
+        draw.circle(window, (255,255,255), (950,130), 3)
+
+        draw.circle(window, (255,255,255), (50,120), 3)
+        draw.circle(window, (255,255,255), (300,60), 3)
+        draw.circle(window, (255,255,255), (450,140), 3)
+        draw.circle(window, (255,255,255), (650,20), 3)
+        draw.circle(window, (255,255,255), (850,110), 3)
+        draw.circle(window, (255,255,255), (1100,80), 3)
+
+
+
+
+
+
     # sol
     draw.circle(window,(255,196,0),(sol_x,sol_y),50)
     draw.line(window,(255,196,0),(sol_x,sol_y-50),(sol_x,sol_y-100),8) 
