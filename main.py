@@ -2,6 +2,31 @@ from pygame import *
 import sys 
 init()
 
+background_color = '#97d1fa'
+
+#sfx
+# manha_sfx = mixer.Sound('')
+# tarde_sfx = mixer.Sound('')
+# noite_sfx = mixer.Sound('')
+# manha_sfx.set_volume(0.5)
+# tarde_sfx.set_volume(0.5)
+# noite_sfx.set_volume(0.5)
+
+#margem da tela = 
+margem_left = 40
+margem_right = 1040 
+margem_top = 50
+margem_bottom = 670
+
+#sol variaveis
+sol_x = 200
+sol_y = 150
+
+
+
+
+
+
 
 #imagens
 newton_img = image.load("newton.png")
@@ -22,24 +47,94 @@ music.set_volume(0.1)
 
 window = display.set_mode((1280,720))
 window.fill((151, 209, 250))
+running = True
+clock = time.Clock()
+
+
+
+movimentosol = False
+
+
+
 
 #nuvem andando
 nuvem_x = 800
-velocidade = 0.7
+velocidade = 4
+sol_x = 160
+sol_y = 50
 
 
-while True:
+
+
+
+
+
+
+timer = 0
+
+while running:
+    clock.tick(60)
     for ev in event.get():
         if  ev.type == QUIT:
-            quit()
-            sys.exit()
+            running = False
 
-    #nuvem andando
-    window.fill((151, 209, 250))
-    nuvem_x += velocidade
-    if nuvem_x > 1280:
-        nuvem_x = 800
+        if ev.type == KEYDOWN:
+            key_pressed = ev.key
+            if key_pressed == K_m:
+                movimentosol = not movimentosol
+
+    dt = clock.get_time()/1000
+    keys = key.get_pressed()
+#mov sol:
+    if not movimentosol:
+        if keys[K_d]:
+            sol_x += 200 * dt
+        if keys[K_a]:
+            sol_x -= 200 * dt
+        if keys[K_w]:
+            sol_y -= 200 * dt
+        if keys[K_s]:
+            sol_y += 200 * dt
+    else:
+        if ev.type == MOUSEMOTION:
+            sol_x, sol_y = ev.pos
+
     
+
+    #tempo de acordo com sol_x:
+
+    if sol_x < 427:
+        background_color = '#97d1fa'
+    elif sol_x > 854:
+        background_color = '#011140'
+    else:
+        background_color = '#cf7200'
+
+
+    # limpar resto nuvem andando
+    window.fill(background_color)
+    
+    # sol
+    draw.circle(window,(255,196,0),(sol_x,sol_y),50)
+    draw.line(window,(255,196,0),(sol_x,sol_y-50),(sol_x,sol_y-100),8) 
+    draw.line(window,(255,196,0),(sol_x,sol_y+50),(sol_x,sol_y+100),8) 
+    draw.line(window,(255,196,0),(sol_x-50,sol_y),(sol_x-100,sol_y),8) 
+    draw.line(window,(255,196,0),(sol_x+50,sol_y),(sol_x+100,sol_y),8) 
+    draw.line(window,(255,196,0),(sol_x-35,sol_y-35),(sol_x-70,sol_y-70),8)
+    draw.line(window,(255,196,0),(sol_x+35,sol_y-35),(sol_x+70,sol_y-70),8)
+    draw.line(window,(255,196,0),(sol_x-35,sol_y+35),(sol_x-70,sol_y+70),8)
+    draw.line(window,(255,196,0),(sol_x+35,sol_y+35),(sol_x+70,sol_y+70),8)
+
+    #limite sol:
+    sol_x = max(30, min(1230, sol_x))
+    sol_y = max(70, min(630, sol_y))
+
+    #nuvem rebater: 
+    if nuvem_x > margem_right:
+        velocidade = -4
+    if nuvem_x < margem_left: 
+        velocidade = 4
+    nuvem_x += velocidade
 
     #desenhar aqui:
     draw.rect(window,(72, 157, 37),(0,580,1280,220))
@@ -57,29 +152,6 @@ while True:
     draw.line(window,(0, 0, 0),(375,200),(250,330),5)
     draw.line(window,(0, 0, 0),(375,200),(500,330),5)
     
-    #sol
-    draw.line(window,(255, 196, 0),(160,120),(250,200),8)
-    draw.line(window,(255, 196, 0),(160,120),(100,230),8)
-    draw.line(window,(255, 196, 0),(160,120),(180,230),8)
-    draw.line(window,(255, 196, 0),(160,120),(230,260),8)
-    draw.line(window,(255, 196, 0),(160,120),(230,10),8)
-    draw.line(window,(255, 196, 0),(160,120),(250,50),8)
-    draw.line(window,(255, 196, 0),(160,120),(270,105),8)
-    draw.line(window,(255, 196, 0),(160,120),(290,145),8)
-    draw.line(window,(255, 196, 0),(160,120),(25,185),8)
-    draw.line(window,(255, 196, 0),(160,120),(33,120),8)
-    draw.line(window,(255, 196, 0),(160,120),(25,60),8)
-    draw.line(window,(255, 196, 0),(160,120),(45,10),8)
-    draw.line(window,(255, 196, 0),(160,120),(120,10),8)
-    draw.line(window,(255, 196, 0),(160,120),(180,10),8)
-    draw.circle(window,(255, 196, 0),(160,120),50)
-
-    #nuvem parada
-    # draw.circle(window,(255, 255, 255,), (800, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (865, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (930, 100), 50)
-    # draw.circle(window,(255, 255, 255,), (995, 100), 50)
-
     #nuvem andando
     draw.circle(window,(255, 255, 255), (nuvem_x, 100), 50)
     draw.circle(window,(255, 255, 255), (nuvem_x + 65, 100), 50)
