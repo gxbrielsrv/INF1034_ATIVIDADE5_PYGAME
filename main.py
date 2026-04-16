@@ -5,12 +5,12 @@ init()
 background_color = '#97d1fa'
 
 #sfx
-# manha_sfx = mixer.Sound('')
-# tarde_sfx = mixer.Sound('')
-# noite_sfx = mixer.Sound('')
-# manha_sfx.set_volume(0.5)
-# tarde_sfx.set_volume(0.5)
-# noite_sfx.set_volume(0.5)
+manha_sfx = mixer.Sound('manha.wav')
+tarde_sfx = mixer.Sound('tarde.wav')
+noite_sfx = mixer.Sound('noite.wav')
+manha_sfx.set_volume(0.2)
+tarde_sfx.set_volume(0.2)
+noite_sfx.set_volume(0.2)
 
 #margem da tela = 
 margem_left = 40
@@ -39,10 +39,10 @@ newton_font = font.Font("contrast.ttf", 30)
 newton_text = newton_font.render("I am Newton", True, (0,0,0))
 
 #musica
-mixer_music.load("newton_music.mp3")
-mixer_music.play(-1)
-music = mixer.Sound("newton_music.mp3")
-music.set_volume(0.1)
+# mixer_music.load("newton_music.mp3")
+# mixer_music.play(-1)
+# music = mixer.Sound("newton_music.mp3")
+# music.set_volume(0.1)
 
 
 window = display.set_mode((1280,720))
@@ -85,6 +85,7 @@ while running:
 
     dt = clock.get_time()/1000
     keys = key.get_pressed()
+
 #mov sol:
     if not movimentosol:
         if keys[K_d]:
@@ -99,16 +100,27 @@ while running:
         if ev.type == MOUSEMOTION:
             sol_x, sol_y = ev.pos
 
+        if ev.type == MOUSEBUTTONUP:
+            if ev.button == 1:
+                if sol_x < 400 :
+                    manha_sfx.play()
+                elif sol_x > 800:
+                    noite_sfx.play()
+                else:
+                    tarde_sfx.play()
+                
     
 
     #tempo de acordo com sol_x:
-
     if sol_x < 427:
         background_color = '#97d1fa'
     elif sol_x > 854:
         background_color = '#011140'
     else:
         background_color = '#cf7200'
+
+        
+
 
 
     # limpar resto nuvem andando
@@ -172,6 +184,7 @@ while running:
     window.blit(newton_text,(750, 650))
 
     #colocar som:
-    music.play()
+    # music.play()
     
+
     display.update()
